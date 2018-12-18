@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "test",
+    "version": "0.1",
+
+    "browser_action": {
+        "default_title": "timer",
+        "default_popup": "popup/index.html"
+    },
+
+    "background": {
+        "scripts": [
+            "libraries/p5.min.js",
+            "libraries/p5.dom.min.js",
+            "libraries/p5.sound.min.js",
+            "background/background.js"
+        ]
+    },
+
+    "permissions": [
+        "storage"
+    ]
+    
+}
+    

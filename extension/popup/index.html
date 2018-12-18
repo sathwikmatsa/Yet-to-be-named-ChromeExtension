@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pomodoro Timer</title>
+    <script src="../libraries/p5.min.js"></script>
+    <script src="../libraries/p5.dom.min.js"></script>
+    <script src="../libraries/p5.sound.min.js"></script>
+    <script src="sketch.js"></script>
+</head>
+<style>
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.button {
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica;
+  font-weight: bold;
+}
+.timer{
+    font-size: 92px;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    color: #222222;
+    text-rendering: optimizeLegibility;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    margin-top: 14px;
+}
+body {
+    width: 800px;
+    height: 600px;
+}
+</style>
+
+<body>
+    <div class="middle">
+    <div>
+        <p id="timer" class="timer">00:00:00</p>
+    </div>
+    <div id="timer_options">
+        <p>
+            <button class="button" style="background-color:#5da423;">START</button>
+            <button class="button" style="background-color:grey;">PAUSE</button>
+            <button class="button" style="background-color:#c60f13;">RESET</button>
+        </p>
+    </div>
+    </div>
+</body>
+
+</html>
