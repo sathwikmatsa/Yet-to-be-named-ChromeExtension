@@ -8,6 +8,13 @@ function timeIt(){
     if((millis() - startTime) > countDownTimer){
         countDownComplete = true;
         clearInterval(interval);
+        let options = {
+            type: "basic",
+            title: "Pomodoro Timer",
+            message: "Take a small break!",
+            iconUrl: "../assets/timer.png"
+        }
+        chrome.notifications.create(options);
         alarm.play();
     }
 }

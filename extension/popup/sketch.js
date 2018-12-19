@@ -18,6 +18,7 @@ function timeIt(){
         clearInterval(interval);
         return;
     }
+    // 'countdown'
     timer.html(formattedTime(countDownTimer - (millis() + startTime)));
 }
 
