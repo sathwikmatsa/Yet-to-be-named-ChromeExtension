@@ -18,6 +18,7 @@ function timeIt(){
             iconUrl: "../assets/timer.png"
         }
         chrome.notifications.create(options);
+        isPaused = true;
         alarm.play();
     }
 }
@@ -31,12 +32,13 @@ function setup(){
     noCanvas();
 
     chrome.storage.sync.get(['default_timer'], function(result) {
-        countDownTimer = result.key != undefined ? result.key : 10*1000;
+        countDownTimer = result.key != undefined ? result.key : 25*60*1000;
         console.log('countDownTimer: ' + countDownTimer);
         countDownComplete = false;
         startTime = millis();
         console.log("init: ", startTime);
         isPaused = false;
+        console.log("1");
         interval = setInterval(timeIt, 1000);
     });
 }
@@ -46,23 +48,28 @@ chrome.runtime.onMessage.addListener(
     console.log("received request from popup!", countDownComplete, countDownTimer);
     if (request.sendTimerDetails){
       sendResponse({
-          current_time: millis() - startTime,
+          current_time: millis(),
+          start_time: startTime,
           countdown_time: countDownTimer,
-          countdown_complete : countDownComplete
+          is_paused: isPaused,
+          countdown_complete : countDownComplete,
+          paused_ts: pausedTimeStamp
       });
     }
     else if(request.restartTimer){
-        countDownComplete = false;
-        if(isPaused){
+        if(isPaused && !countDownComplete){
           startTime = millis() - (pausedTimeStamp - startTime);
-          isPaused = false;
         }
         else startTime = millis();
+        isPaused = false;
+        console.log("2");
+        countDownComplete = false;
         clearInterval(interval);
         // TODO: make sure to update countDownTimer if changed
         interval = setInterval(timeIt, 1000);
         sendResponse({
-        current_time: millis() - startTime,
+        current_time: millis(),
+        start_time: startTime,
         countdown_time: countDownTimer
         });
     }
@@ -70,12 +77,14 @@ chrome.runtime.onMessage.addListener(
         if(!countDownComplete){
           pausedTimeStamp = millis();
           isPaused = true;
+          console.log("3T");
         }
         sendResponse({is_paused: isPaused});
     }
     else if(request.resetTimer){
         countDownComplete = true;
-        isPaused = false;
+        isPaused = true;
+        console.log("4T")
         clearInterval(interval);
         sendResponse({countdown_complete: true});
     }

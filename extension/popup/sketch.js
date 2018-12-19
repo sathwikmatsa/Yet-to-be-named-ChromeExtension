@@ -1,3 +1,4 @@
+let currentTime;
 let startTime;
 let countDownTimer;
 let interval;
@@ -10,10 +11,17 @@ let isPaused;
 function setup(){
     noCanvas();
     chrome.runtime.sendMessage({sendTimerDetails: true}, function(response) {
-        startTime = response.current_time;
+        currentTime = response.current_time;
+        startTime = response.start_time;
         countDownTimer = response.countdown_time;
+        isPaused = response.is_paused;
+        console.log(isPaused);
         let countDownComplete = response.countdown_complete;
+        let pausedTS = response.paused_ts;
         timer = select("#timer");
+        if(isPaused && !countDownComplete){
+            timer.html(formattedTime(1000 + countDownTimer - (pausedTS - startTime)));
+        }
         if(!countDownComplete){
             timeIt();
             interval = setInterval(timeIt, 1000);
@@ -42,23 +50,30 @@ function formattedTime(t){
 }
 
 function timeIt(){
+    console.log("FLAG1");
     if(isPaused) return;
-    if((millis() + startTime) > countDownTimer){
+    // currentTime - startTime : time already counted in background script
+    if((currentTime - startTime + millis()) > countDownTimer){
         timer.html(formattedTime(0));
         clearInterval(interval);
         isPaused = true;
+        console.log("FLAG2")
         return;
     }
+    console.log("FLAG3")
     // 'countdown'
-    timer.html(formattedTime(1000 + countDownTimer - (millis() + startTime)));
+    timer.html(formattedTime(1000 + countDownTimer - (currentTime - startTime + millis())));
 }
 
 function restartTimer(){
     if(!isPaused) return;
     chrome.runtime.sendMessage({restartTimer: true}, function(response) {
+        console.log("timer restarted");
         isPaused = false;
         clearInterval(interval);
-        startTime = response.current_time - millis();
+        // millis() is subtracted in order to make current time of popup to be relatively set to 0
+        currentTime = response.current_time - millis();
+        startTime = response.start_time;
         countDownTimer = response.countdown_time;
         timeIt();
         interval = setInterval(timeIt, 1000);
