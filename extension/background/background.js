@@ -5,6 +5,7 @@ let countDownComplete;
 let alarm;
 let isPaused;
 let pausedTimeStamp;
+let autoStartTimer;
 
 function timeIt(){
     if(isPaused) return;
@@ -20,6 +21,14 @@ function timeIt(){
         chrome.notifications.create(options);
         isPaused = true;
         alarm.play();
+        // restart after every 5 minutes
+        autoStartTimer = setTimeout(function(){
+            startTime = millis();
+            isPaused = false;
+            countDownComplete = false;
+            clearInterval(interval);
+            interval = setInterval(timeIt, 1000);
+        }, 5*60*1000);
     }
 }
 
@@ -72,6 +81,7 @@ chrome.runtime.onMessage.addListener(
         start_time: startTime,
         countdown_time: countDownTimer
         });
+        clearTimeout(autoStartTimer);
     }
     else if(request.pauseTimer){
         if(!countDownComplete){
@@ -89,3 +99,13 @@ chrome.runtime.onMessage.addListener(
         sendResponse({countdown_complete: true});
     }
   });
+
+chrome.windows.onRemoved.addListener(function(){
+    chrome.windows.getAll({},function(windows){
+        if(windows.length == 0){
+            countDownComplete = true;
+            isPaused = true;
+            clearInterval(interval);
+        }
+    });
+});
