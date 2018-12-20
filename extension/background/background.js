@@ -106,6 +106,7 @@ chrome.windows.onRemoved.addListener(function(){
         if(windows.length == 0){
             countDownComplete = true;
             isPaused = true;
+            pausedTimeStamp = millis();
             clearInterval(interval);
             clearTimeout(autoStartTimer);
         }
@@ -116,7 +117,11 @@ chrome.windows.onRemoved.addListener(function(){
 chrome.windows.onCreated.addListener(function(){
     chrome.windows.getAll({},function(windows){
         if(windows.length == 1){
-            startTime = millis();
+            if((millis() - pausedTimeStamp) >= 5*60*1000){
+                startTime = millis();
+            } else {
+                startTime = millis() - (pausedTimeStamp - startTime);
+            }
             isPaused = false;
             countDownComplete = false;
             clearInterval(interval);
