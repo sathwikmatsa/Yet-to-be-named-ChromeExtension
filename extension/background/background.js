@@ -100,12 +100,28 @@ chrome.runtime.onMessage.addListener(
     }
   });
 
+// reset timer on closing all windows
 chrome.windows.onRemoved.addListener(function(){
     chrome.windows.getAll({},function(windows){
         if(windows.length == 0){
             countDownComplete = true;
             isPaused = true;
             clearInterval(interval);
+            clearTimeout(autoStartTimer);
         }
     });
 });
+
+// restart timer on reopening chrome
+chrome.windows.onCreated.addListener(function(){
+    chrome.windows.getAll({},function(windows){
+        if(windows.length == 1){
+            startTime = millis();
+            isPaused = false;
+            countDownComplete = false;
+            clearInterval(interval);
+            interval = setInterval(timeIt, 1000);
+            clearTimeout(autoStartTimer);
+        }
+    });
+})
