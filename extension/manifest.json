@@ -5,7 +5,7 @@
 
     "browser_action": {
         "default_title": "timer",
-        "default_popup": "popup/index.html"
+        "default_popup": "popup/popup.html"
     },
 
     "background": {
