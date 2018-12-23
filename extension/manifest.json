@@ -20,7 +20,10 @@
     "permissions": [
         "storage",
         "notifications"
-    ]
-    
+    ],
+   
+    "web_accessible_resources": [
+        "assets/ProductSans/*.tff"
+    ] 
 }
     
