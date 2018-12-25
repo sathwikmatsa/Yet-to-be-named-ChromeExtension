@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'ProductSansRegular';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../assets/ProductSans/Regular.ttf'); 
+}
+@font-face {
+  font-family: 'ProductSansBold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../assets/ProductSans/Bold.ttf'); 
+}
+body {
+    width: 700px;
+    height: 525px;
+}
+.task{
+    margin:10px 0px;
+    font-size: 20px;
+    font-family: 'ProductSansRegular';
+}
+.input{
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.add-task-button {
+  background-color: #559cff; 
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 1px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: "Helvetica", Helvetica;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.tasks-section {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.task-heading {
+    font-family: 'ProductSansBold';
+    font-size: 30px;
+    font-weight: bold;
+    display: none;
+}
+

@@ -2,58 +2,20 @@
 <html>
 <head>
     <title>Todo-list</title>
+    <link rel="stylesheet" href="todo.css">
 </head>
-<style>
-@font-face {
-  font-family: 'Product Sans';
-  font-style: normal;
-  font-weight: bold;
-  src: url('../assets/ProductSans/Regular.ttf'); 
-}
-body {
-    width: 700px;
-    height: 525px;
-}
-.task{
-    font-size: 20px;
-    font-family: 'Product Sans';
-}
-.input{
-  width: 75%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-.button {
-  background-color: #559cff; 
-  border: none;
-  color: white;
-  padding: 7px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2px 1px;
-  cursor: pointer;
-  border-radius: 2px;
-  font-family: "Helvetica", Helvetica;
-  font-style: normal;
-  font-weight: 500;
-}
-</style>
-
 <body>
     <div>
-        <div id="add_task"></div>
-        <div id="controls"><button state="Normal" class="button" id="addTaskBtn">Add Task</button></div>
+        <div id="add_task_section"></div>
+        <button class="add-task-button" id="addTaskBtn" state="Normal">Add Task</button>
     </div>
     <hr>
-    <div id="tasks">
-    </div>
-
+    <main>
+        <section class="tasks-section">
+            <header><h1 class="task-heading" id="NewTasksHeading">New Tasks</h1></header>
+            <div id="NewTasks"></div>
+        </section>
+    </main>
 <script src="todo.js"></script>
 </body>
 

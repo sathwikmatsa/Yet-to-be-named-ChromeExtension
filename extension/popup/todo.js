@@ -1,14 +1,26 @@
-let addTaskDiv = document.getElementById("add_task");
-let taskDiv = document.getElementById("tasks");
+let addTaskDiv = document.getElementById("add_task_section");
+let taskDiv = document.getElementById("NewTasks");
 let tasks;
+
+function createElementFromHTML(html){
+    let div = document.createElement("div");
+    div.innerHTML = html.trim();
+    return div.firstChild;
+}
 
 chrome.storage.sync.get(['NewTasks'], function(result) {
     if(result.NewTasks){
         console.log("tasks present!");
+        document.getElementById("NewTasksHeading").style.display = "block";
         tasks = result.NewTasks;
         let nTasks = tasks.length;
-        for(let i = 0; i < nTasks; i++){
-            let task = document.createElement("p");
+        let task = document.createElement("p");
+        task.className = "task";
+        task.innerText = tasks[0];
+        taskDiv.appendChild(task);
+        for(let i = 1; i < nTasks; i++){
+            taskDiv.appendChild(document.createElement("hr"));
+            task = document.createElement("p");
             task.className = "task";
             task.innerText = tasks[i];
             taskDiv.appendChild(task);
@@ -31,6 +43,7 @@ document.getElementById("addTaskBtn").addEventListener("click", function(event){
         let task = document.createElement("p");
         task.className = "task";
         task.innerText = input.value;
+        if(tasks.length != 0) taskDiv.appendChild(document.createElement("hr"));
         taskDiv.appendChild(task);
         tasks.push(input.value);
         chrome.storage.sync.set({NewTasks: tasks}, function() {
