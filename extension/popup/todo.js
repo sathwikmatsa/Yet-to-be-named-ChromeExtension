@@ -1,5 +1,5 @@
 let addTaskDiv = document.getElementById("add_task_section");
-let taskDiv = document.getElementById("NewTasks");
+let newTaskDiv = document.getElementById("NewTasks");
 let tasks;
 
 function createElementFromHTML(html){
@@ -8,22 +8,52 @@ function createElementFromHTML(html){
     return div.firstChild;
 }
 
+function findTaskIndex(todo){
+    let nTasks = tasks.length;
+    for(let i = 0; i < nTasks; i++){
+        if(tasks[i].todo === todo) return i;
+    }
+}
+
+function completeTask(evt){
+    let todo = evt.currentTarget.nextElementSibling.innerText;
+    let taskIndex = findTaskIndex(todo);
+    if(evt.currentTarget.checked) {
+        evt.currentTarget.nextElementSibling.innerHTML = "<s>" + todo + "</s>";
+        tasks[taskIndex].complete = true;
+    }
+    else {
+        evt.currentTarget.nextElementSibling.innerHTML = todo;
+        tasks[taskIndex].complete = false;
+    }
+    chrome.storage.sync.set({NewTasks: tasks});
+}
+
+function createTaskItem(taskString, isComplete){
+    let taskTemplate = `
+        <div class="task">
+            <label>
+                <input type="checkbox"> <span>` +
+                taskString +
+            `</span> </label>
+        </div>
+    `;
+    let taskDiv = createElementFromHTML(taskTemplate);
+    let checkBox = taskDiv.getElementsByTagName('input')[0];
+    checkBox.addEventListener("change", completeTask);
+    checkBox.checked = isComplete;
+    if(isComplete) checkBox.nextElementSibling.innerHTML = "<s>" + checkBox.nextElementSibling.innerText + "</s>";
+    return taskDiv;
+}
+
 chrome.storage.sync.get(['NewTasks'], function(result) {
     if(result.NewTasks){
-        console.log("tasks present!");
         document.getElementById("NewTasksHeading").style.display = "block";
         tasks = result.NewTasks;
         let nTasks = tasks.length;
-        let task = document.createElement("p");
-        task.className = "task";
-        task.innerText = tasks[0];
-        taskDiv.appendChild(task);
-        for(let i = 1; i < nTasks; i++){
-            taskDiv.appendChild(document.createElement("hr"));
-            task = document.createElement("p");
-            task.className = "task";
-            task.innerText = tasks[i];
-            taskDiv.appendChild(task);
+        for(let i = 0; i < nTasks; i++){
+            if(i != 0) newTaskDiv.appendChild(document.createElement("hr"));
+            newTaskDiv.appendChild(createTaskItem(tasks[i].todo, tasks[i].complete));
         }
     } else {
         console.log("no tasks", result.key);
@@ -40,12 +70,10 @@ document.getElementById("addTaskBtn").addEventListener("click", function(event){
     } else {
         let input = document.getElementById("inputText");
         if(input.value === "") return;
-        let task = document.createElement("p");
-        task.className = "task";
-        task.innerText = input.value;
-        if(tasks.length != 0) taskDiv.appendChild(document.createElement("hr"));
-        taskDiv.appendChild(task);
-        tasks.push(input.value);
+        if(tasks.length != 0) newTaskDiv.appendChild(document.createElement("hr"));
+        else document.getElementById("NewTasksHeading").style.display = "block";
+        newTaskDiv.appendChild(createTaskItem(input.value, false));
+        tasks.push({todo:input.value, complete:false});
         chrome.storage.sync.set({NewTasks: tasks}, function() {
           console.log('New task added to storage :' + tasks[tasks.length-1]);
         });
