@@ -31,7 +31,6 @@ function completeTask(evt){
 
 function displayOptions(evt){
     let property = evt.currentTarget.nextElementSibling.style.display;
-    console.log(property);
     evt.currentTarget.nextElementSibling.style.display = (property === "block" ? "none" : "block");
 }
 
@@ -40,13 +39,21 @@ function clearOptions(evt){
 }
 
 function showOptionGear(evt){
-    if(evt.currentTarget.getElementsByClassName("dropdown-content")[0].style.display == "block") return;
-    evt.currentTarget.getElementsByClassName("dropdown")[0].style.display = "inline-block";
+    try{
+        if(evt.currentTarget.getElementsByClassName("dropdown-content")[0].style.display == "block") return;
+        evt.currentTarget.getElementsByClassName("dropdown")[0].style.display = "inline-block";
+    } catch(error){
+        // ignore
+    }
 }
 
 function hideOptionGear(evt){
-    if(evt.currentTarget.getElementsByClassName("dropdown-content")[0].style.display == "block") return;
-    evt.currentTarget.getElementsByClassName("dropdown")[0].style.display = "none";
+    try{
+        if(evt.currentTarget.getElementsByClassName("dropdown-content")[0].style.display == "block") return;
+        evt.currentTarget.getElementsByClassName("dropdown")[0].style.display = "none";
+    } catch(error){
+        // ignore
+    }
 }
 
 function deleteTask(evt){
@@ -60,6 +67,42 @@ function deleteTask(evt){
     if(taskIndex != 0) evt.currentTarget.parentElement.parentElement.parentElement.parentElement.previousElementSibling.remove(); // remove above <hr> element
     else if(tasks.length != 0) evt.currentTarget.parentElement.parentElement.parentElement.parentElement.nextElementSibling.remove(); // remove below <hr> if 1st
     evt.currentTarget.parentElement.parentElement.parentElement.parentElement.remove();
+}
+
+function saveTask(evt){
+    let modifiedTodo = evt.currentTarget.parentElement.previousElementSibling.value;
+    let prevTodo = evt.currentTarget.parentElement.previousElementSibling.getAttribute("prev");
+    let taskDiv = evt.currentTarget.parentElement.parentElement;
+    taskDiv.innerHTML = "";
+    let taskIndex = findTaskIndex(prevTodo);
+    tasks[taskIndex].todo = modifiedTodo;
+    taskDiv.appendChild(createTaskItem(modifiedTodo, tasks[taskIndex].complete).firstElementChild);
+    chrome.storage.sync.set({NewTasks: tasks});
+}
+
+function cancelEdit(evt){
+    let prevTodo = evt.currentTarget.parentElement.previousElementSibling.getAttribute("prev");
+    let taskDiv = evt.currentTarget.parentElement.parentElement;
+    taskDiv.innerHTML = "";
+    let taskIndex = findTaskIndex(prevTodo);
+    taskDiv.appendChild(createTaskItem(prevTodo, tasks[taskIndex].complete).firstElementChild);
+}
+
+function editTask(evt){
+    let taskDiv = evt.currentTarget.parentElement.parentElement.parentElement.parentElement;
+    let todo = evt.currentTarget.parentElement.parentElement.previousElementSibling.innerText;
+    console.log(todo);
+    taskDiv.innerHTML = `
+        <input id="editText" class="input" type="text">
+        <span>
+            <button id="save" class="edit-options save">save</button>
+            <button id="cancel" class="edit-options cancel">cancel</button>
+        </span>
+    `;
+    taskDiv.firstElementChild.defaultValue = todo;
+    taskDiv.firstElementChild.setAttribute("prev", todo);
+    taskDiv.getElementsByTagName("button")[0].addEventListener("click", saveTask);
+    taskDiv.getElementsByTagName("button")[1].addEventListener("click", cancelEdit);
 }
 
 function createTaskItem(taskString, isComplete){
@@ -87,7 +130,7 @@ function createTaskItem(taskString, isComplete){
     let options = taskDiv.getElementsByTagName('input')[1];
     options.addEventListener("click", displayOptions);
     let edit = taskDiv.getElementsByTagName('a')[0];
-    //edit.addEventListener("click", editTask);
+    edit.addEventListener("click", editTask);
     let del = taskDiv.getElementsByTagName('a')[1];
     del.addEventListener("click", deleteTask);
     return taskDiv;
@@ -115,12 +158,13 @@ document.getElementById("addTaskBtn").addEventListener("click", function(event){
         `;
         event.currentTarget.setAttribute("state", "Input");
     } else {
+        //TODO: discard duplicate tasks
         let input = document.getElementById("inputText");
         if(input.value === "") return;
         else document.getElementById("NewTasksHeading").style.display = "block";
         if(tasks.length != 0) newTaskDiv.appendChild(document.createElement("hr"));
-        newTaskDiv.appendChild(createTaskItem(input.value, false));
-        tasks.push({todo:input.value, complete:false});
+        newTaskDiv.appendChild(createTaskItem(input.value.trim(), false));
+        tasks.push({todo:input.value.trim(), complete:false});
         chrome.storage.sync.set({NewTasks: tasks}, function() {
           console.log('New task added to storage :' + tasks[tasks.length-1]);
         });

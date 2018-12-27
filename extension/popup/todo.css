@@ -27,6 +27,8 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 20px;
 }
 .add-task-button {
   background-color: #559cff; 
@@ -80,3 +82,23 @@ body {
 }
 
 .dropdown-content a:hover {background-color: #999897}
+
+.edit-options {
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.save {
+    background-color: #4CAF50;
+    color: white;
+}
+
+. cancel{
+    background-color: none;
+    color: grey;
+}
