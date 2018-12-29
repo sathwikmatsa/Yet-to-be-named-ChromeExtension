@@ -2,13 +2,13 @@
   font-family: 'ProductSansRegular';
   font-style: normal;
   font-weight: bold;
-  src: url('../assets/ProductSans/Regular.ttf'); 
+  src: url('../../assets/ProductSans/Regular.ttf'); 
 }
 @font-face {
   font-family: 'ProductSansBold';
   font-style: normal;
   font-weight: bold;
-  src: url('../assets/ProductSans/Bold.ttf'); 
+  src: url('../../assets/ProductSans/Bold.ttf'); 
 }
 body {
     width: 700px;

@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'ProductSansRegular';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../../assets/ProductSans/Regular.ttf'); 
+}
+@font-face {
+  font-family: 'ProductSansBold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../../assets/ProductSans/Bold.ttf'); 
+}
+body {
+    width: 700px;
+    height: 525px;
+}
+.website{
+    border-style: solid;
+    background-color: #e8e6e4;
+    margin:10px 0px;
+    font-size: 20px;
+    font-family: 'ProductSansRegular';
+}
+.input{
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 20px;
+}
+.add-website-button {
+  background-color: #559cff; 
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px 1px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: "Helvetica", Helvetica;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.websites-section {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.dropdown {
+    display: none;
+    float: right;
+    margin-right: 1px;
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 6px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #999897}
+
+.edit-options {
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.save {
+    background-color: #4CAF50;
+    color: white;
+}
+
+. cancel{
+    background-color: none;
+    color: grey;
+}

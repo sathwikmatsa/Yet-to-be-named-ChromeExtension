@@ -111,7 +111,7 @@ function createTaskItem(taskString, isComplete){
             <label>
                 <input type="checkbox"> <span>` + taskString + `</span>
                 <div class="dropdown">
-                    <input type="image" src="../assets/ellipsis.png" />
+                    <input type="image" src="../../assets/ellipsis.png" />
                     <div class="dropdown-content">
                       <a>edit</a>
                       <a>delete</a>
