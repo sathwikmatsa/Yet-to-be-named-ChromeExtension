@@ -65,7 +65,7 @@ function saveSite(evt){
     let modifiedURL = evt.currentTarget.parentElement.previousElementSibling.previousElementSibling.value;
     let prevURL = evt.currentTarget.parentElement.previousElementSibling.previousElementSibling.getAttribute("prev");
     let modifiedNote = evt.currentTarget.parentElement.previousElementSibling.value;
-    let siteDiv = evt.currentTarget.parentElement.parentElement;
+    let siteDiv = evt.currentTarget.parentElement.parentElement.parentElement;
     siteDiv.innerHTML = "";
     let siteIndex = findSiteIndex(prevURL);
     websites[siteIndex].url = modifiedURL;
@@ -77,7 +77,7 @@ function saveSite(evt){
 function cancelEdit(evt){
     let prevURL = evt.currentTarget.parentElement.previousElementSibling.previousElementSibling.getAttribute("prev");
     let prevNote = evt.currentTarget.parentElement.previousElementSibling.getAttribute("prev");
-    let siteDiv = evt.currentTarget.parentElement.parentElement;
+    let siteDiv = evt.currentTarget.parentElement.parentElement.parentElement;
     siteDiv.innerHTML = "";
     let siteIndex = findSiteIndex(prevURL);
     siteDiv.appendChild(createWebsiteItem(prevURL, prevNote));
@@ -89,12 +89,12 @@ function editSite(evt){
     let note = evt.currentTarget.parentElement.parentElement.previousElementSibling.previousElementSibling.innerText;
     console.log(url, note);
     siteDiv.innerHTML = `
-        <input id="editURL" class="input" type="text">
-        <input id="editNote" class="input" type="text">
-        <span>
+        <input id="editURL" class="input edit-site" type="text" placeholder="mandatory URL">
+        <input id="editNote" class="input edit-site" type="text" placeholder="add a side note">
+        <p class="edit">
             <button id="save" class="edit-options save">save</button>
             <button id="cancel" class="edit-options cancel">cancel</button>
-        </span>
+        </p>
     `;
     siteDiv.firstElementChild.defaultValue = url;
     siteDiv.firstElementChild.setAttribute("prev", url);
@@ -107,7 +107,7 @@ function editSite(evt){
 function createWebsiteItem(url, note){
     let template = `
         <div class="website">
-            <p>` + note + `</p>
+            <p class="note">` + note + `</p>
             <a href=` + url + ` target="_blank">` + url + `</a>
             <div class="dropdown">
                 <input type="image" src="../../assets/ellipsis.png" />
@@ -135,7 +135,9 @@ chrome.storage.sync.get(['SavedWebsites'], function(result) {
         websites = result.SavedWebsites;
         let nWebsites = websites.length;
         for(let i = 0; i < nWebsites; i++){
-            websiteDiv.appendChild(createWebsiteItem(websites[i].url, websites[i].note));
+            let site_container = document.createElement('div');
+            site_container.appendChild(createWebsiteItem(websites[i].url, websites[i].note));
+            websiteDiv.appendChild(site_container);
         }
     } else {
         websites = [];

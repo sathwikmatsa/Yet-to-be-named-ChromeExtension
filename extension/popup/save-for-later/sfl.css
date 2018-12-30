@@ -15,11 +15,13 @@ body {
     height: 525px;
 }
 .website{
-    border-style: solid;
-    background-color: #e8e6e4;
-    margin:10px 0px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,0.8) 0 0 5px;
     font-size: 20px;
     font-family: 'ProductSansRegular';
+    margin: 5px 0px;
+    padding: 10px;
 }
 .input{
   width: 75%;
@@ -32,6 +34,11 @@ body {
   font-family: Tahoma, Geneva, sans-serif;
   font-size: 20px;
 }
+
+.edit-site {
+    width: 100%;
+}
+
 .add-website-button {
   background-color: #559cff; 
   border: none;
@@ -78,6 +85,10 @@ body {
 
 .dropdown-content a:hover {background-color: #999897}
 
+.edit {
+    margin: 5px 0px;
+}
+
 .edit-options {
     border: none;
     padding: 5px 10px;
@@ -93,7 +104,11 @@ body {
     color: white;
 }
 
-. cancel{
+.cancel {
     background-color: none;
-    color: grey;
+    color: black;
+}
+
+.note {
+    margin: 6px 0px;
 }

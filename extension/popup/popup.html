@@ -31,16 +31,22 @@ body {
 #content {
     flex: auto;
 }
+.name {
+    font-size: 25px;
+    padding: 5px;
+}
+.name:hover{
+    background: none;
+}
 </style>
 </head>
 
 <body>
     <nav>
-        <button id="logo">Yet to decide!</button>
+        <button class="name" id="logo" disabled>Yet to decide!</button>
         <button id="timer">Timer</button>
         <button id="todo">To-do</button>
         <button id="sfl">Save for later</button>
-        <button>Archive</button>
     </nav>
     <div id="content">
         <script src="popup.js"></script>
