@@ -24,6 +24,10 @@
    
     "web_accessible_resources": [
         "assets/ProductSans/*.tff"
-    ] 
+    ],
+
+    "chrome_url_overrides": {
+        "newtab": "newtab/newtab.html"
+    }
 }
     

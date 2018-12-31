@@ -1,0 +1,45 @@
+.page-bg {
+    background-image: url(https://source.unsplash.com/random/1600x900);
+    background-color: black;
+}
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0;
+}
+.flex-container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-item {
+    color: white;
+    cursor: default;
+    font-family: -apple-system, BlinkMacSystemFont, "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1550%;
+    font-weight: 500;
+    letter-spacing: -5px;
+    line-height: 1;
+    text-align: center;
+    text-shadow: 0 3px 5px rgba(0,0,0,1);
+    user-select: none;
+    --border-radius: 4px;
+    --light-text-color: #222;
+    --light-overlay-bg: rgba(0,0,0,0.07);
+    --a-fast: 0.15s;
+    --a-default: all var(--a-fast) ease;
+}
+#day {
+    font-size: 10%;
+    font-weight: 300;
+    letter-spacing: 0px;
+    margin-left: 0px;
+}
