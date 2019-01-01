@@ -6,6 +6,31 @@ let alarm;
 let isPaused;
 let pausedTimeStamp;
 let autoStartTimer;
+let wallpapers = [];
+let wc = 0;
+let bg_url = "https://source.unsplash.com/random/" + screen.width +"x" + screen.height;
+let fallback_wc = 0;
+
+function download_wallpaper(){
+    let xhr = new XMLHttpRequest();
+    // set request timeout for ajax request
+    let xhr_timeout = setTimeout(abort_ajax_call, 5000);
+    xhr.open("GET", bg_url, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.addEventListener('load',function(){
+        if (xhr.status === 200){
+            let blob = new Blob([xhr.response], {type: "image/png"});
+            wallpapers.push(URL.createObjectURL(blob)) // create url from blob object and store in an array
+            clearTimeout(xhr_timeout);
+        }
+    });
+    xhr.send();
+    function abort_ajax_call(){
+        xhr.abort();
+        console.log("request timed out!");
+        wallpapers.push("/assets/fallback_wallpapers/" + (fallback_wc++)%10 + ".jpg");
+    }
+}
 
 function timeIt(){
     if(isPaused) return;
@@ -50,6 +75,12 @@ function setup(){
         console.log("1");
         interval = setInterval(timeIt, 1000);
     });
+
+    // download newtab wallpapers
+    download_wallpaper();
+    for(let i = 1; i < 10; i++){
+        setTimeout(download_wallpaper, i*3300);
+    }
 }
 
 chrome.runtime.onMessage.addListener(
@@ -98,6 +129,9 @@ chrome.runtime.onMessage.addListener(
         clearInterval(interval);
         sendResponse({countdown_complete: true});
     }
+      else if(request.getWallpaperURL){
+          sendResponse({url: wallpapers[(wc++) % wallpapers.length]});
+      }
   });
 
 // reset timer on closing all windows

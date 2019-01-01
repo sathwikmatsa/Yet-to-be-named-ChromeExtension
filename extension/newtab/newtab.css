@@ -1,6 +1,6 @@
 .page-bg {
-    background-image: url(https://source.unsplash.com/random/1600x900);
     background-color: black;
+    background-size: cover;
 }
 html, body {
     height: 100%;
@@ -31,11 +31,6 @@ body {
     text-align: center;
     text-shadow: 0 3px 5px rgba(0,0,0,1);
     user-select: none;
-    --border-radius: 4px;
-    --light-text-color: #222;
-    --light-overlay-bg: rgba(0,0,0,0.07);
-    --a-fast: 0.15s;
-    --a-default: all var(--a-fast) ease;
 }
 #day {
     font-size: 10%;
