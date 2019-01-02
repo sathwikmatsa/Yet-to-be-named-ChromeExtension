@@ -8,6 +8,15 @@ function createElementFromHTML(html){
     return div.firstChild;
 }
 
+function urlify(text) {
+    var urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '" target="_blank" >' + url + '</a>';
+    })
+    // or alternatively
+    // return text.replace(urlRegex, '<a href="$1">$1</a>')
+}
+
 function findTaskIndex(todo){
     let nTasks = tasks.length;
     for(let i = 0; i < nTasks; i++){
@@ -109,12 +118,12 @@ function createTaskItem(taskString, isComplete){
     let taskTemplate = `
         <div class="task">
             <label>
-                <input type="checkbox"> <span>` + taskString + `</span>
+                <input type="checkbox"> <span>` + urlify(taskString) + `</span>
                 <div class="dropdown">
                     <input type="image" src="../../assets/ellipsis.png" />
                     <div class="dropdown-content">
-                      <a>edit</a>
-                      <a>delete</a>
+                      <a id="edit_task">edit</a>
+                      <a id="delete_task">delete</a>
                     </div>
                 </div>
             </label>
@@ -129,9 +138,9 @@ function createTaskItem(taskString, isComplete){
     if(isComplete) checkBox.nextElementSibling.innerHTML = "<s>" + checkBox.nextElementSibling.innerText + "</s>";
     let options = taskDiv.getElementsByTagName('input')[1];
     options.addEventListener("click", displayOptions);
-    let edit = taskDiv.getElementsByTagName('a')[0];
+    let edit = taskDiv.querySelector('#edit_task');
     edit.addEventListener("click", editTask);
-    let del = taskDiv.getElementsByTagName('a')[1];
+    let del = taskDiv.querySelector('#delete_task');
     del.addEventListener("click", deleteTask);
     return taskDiv;
 }
