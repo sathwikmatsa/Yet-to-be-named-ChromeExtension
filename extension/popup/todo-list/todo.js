@@ -120,7 +120,7 @@ function createTaskItem(taskString, isComplete){
             <label>
                 <input type="checkbox"> <span>` + urlify(taskString) + `</span>
                 <div class="dropdown">
-                    <input type="image" src="../../assets/ellipsis.png" />
+                    <input type="image" src="/assets/icons/ellipsis.png" />
                     <div class="dropdown-content">
                       <a id="edit_task">edit</a>
                       <a id="delete_task">delete</a>
