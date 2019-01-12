@@ -55,6 +55,10 @@ body {
   font-weight: 500;
 }
 
+.loading {
+    background-color: #1a8f1a;
+}
+
 .websites-section {
     margin: 0 auto;
     width: 90%;
