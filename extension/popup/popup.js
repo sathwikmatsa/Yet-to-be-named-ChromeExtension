@@ -1,6 +1,6 @@
 let contentDiv = document.getElementById("content");
-contentDiv.innerHTML='<object type="text/html" data="timer/timer.html" width="730px" height="550px"></object>';
-contentDiv.setAttribute("state", "timer");
+contentDiv.innerHTML='<object type="text/html" data="todo-list/todo.html" width="730px" height="550px"></object>';
+contentDiv.setAttribute("state", "todo");
 
 document.getElementById("timer").addEventListener("click", function(event){
     if(contentDiv.getAttribute("state") === "timer") return;

@@ -39,9 +39,17 @@ function timeIt(){
             type: "basic",
             title: "Pomodoro Timer",
             message: "Take a small break!",
-            iconUrl: "../assets/timer.png"
+            iconUrl: "../assets/icons/timer.png",
+            buttons: [
+                {
+                    title: 'stop'
+                }
+            ]
         }
         chrome.notifications.create(options);
+        chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex){
+            alarm.stop();
+        });
         isPaused = true;
         alarm.play();
         // restart after every 5 minutes

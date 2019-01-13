@@ -28,12 +28,13 @@ document.getElementById("addWebsiteBtn").addEventListener("click", function(even
 });
 
 function addToDisplay(url, note, title){
+    let domain = (new URL(url)).hostname;
     let htmlTemplate = `
         <div class="website">
             <div class='content'>
                 <a id='url' href=`+url+` target='blank' class='link'>
                 <p id='title' class='siteinfo title'>`+ title +`</p>
-                <p id='domain' class='siteinfo domain'>`+ (new URL(url)).hostname +`</p>
+                <p id='domain' class='siteinfo domain'>`+ domain +`</p>
                 <p id='note' class='siteinfo note'>`+note+`</p>
                 </a>
                 <div id='options'>
@@ -53,7 +54,7 @@ function addToDisplay(url, note, title){
     document.getElementById("queue").appendChild(listItem);
 }
 
-chrome.storage.sync.get(['SavedWebsites'], function(result) {
+chrome.storage.local.get(['SavedWebsites'], function(result) {
     if(result.SavedWebsites){
         websites = result.SavedWebsites;
         let nWebsites = websites.length;
@@ -67,7 +68,7 @@ chrome.storage.sync.get(['SavedWebsites'], function(result) {
 
 function addToStorage(url_p, note_p, title_p){
     websites.push({url: url_p, note: note_p, title: title_p});
-    chrome.storage.sync.set({SavedWebsites: websites});
+    chrome.storage.local.set({SavedWebsites: websites});
     return;
 }
 
@@ -76,7 +77,7 @@ function delete_site(event){
     let url = listItem.querySelector('#url').getAttribute('href');
     let note = listItem.querySelector('#note').innerText;
     websites.splice(websites.findIndex(site => site.url === url && site.url === note), 1);
-    chrome.storage.sync.set({SavedWebsites: websites});
+    chrome.storage.local.set({SavedWebsites: websites});
     listItem.remove();
 }
 
